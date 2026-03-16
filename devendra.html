@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Devendra — Photographer · Filmmaker · Crypto Trader</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --black: #080808;
+  --off-black: #0f0f0f;
+  --gold: #c9a84c;
+  --gold-dim: #7a6230;
+  --silver: #8fa4b8;
+  --silver-light: #c2d4e3;
+  --white: #f0ede6;
+  --muted: #5a5a5a;
+  --border: rgba(201,168,76,0.15);
+}
+html { scroll-behavior: smooth; }
+body {
+  background-color: var(--black);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+.cursor {
+  position: fixed; width: 10px; height: 10px;
+  background: var(--gold); border-radius: 50%;
+  pointer-events: none; z-index: 9999;
+  transition: transform 0.15s ease;
+  transform: translate(-50%, -50%);
+}
+.cursor-ring {
+  position: fixed; width: 36px; height: 36px;
+  border: 1px solid rgba(201,168,76,0.5); border-radius: 50%;
+  pointer-events: none; z-index: 9998;
+  transition: width 0.2s, height 0.2s, opacity 0.2s;
+  transform: translate(-50%, -50%);
+}
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 4rem;
+  background: linear-gradient(to bottom, rgba(8,8,8,0.95), transparent);
+}
+.nav-logo {
+  font-family: 'Space Mono', monospace; font-size: 0.75rem;
+  letter-spacing: 0.3em; color: var(--gold);
+  text-transform: uppercase; text-decoration: none;
+}
+.nav-links { display: flex; gap: 2.5rem; list-style: none; }
+.nav-links a {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); text-decoration: none; transition: color 0.3s;
+}
+.nav-links a:hover { color: var(--gold); }
+#hero {
+  min-height: 100vh; display: flex; flex-direction: column;
+  justify-content: flex-end; padding: 0 4rem 6rem;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 70% 40%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 60% at 20% 80%, rgba(143,164,184,0.05) 0%, transparent 60%),
+    linear-gradient(180deg, #080808 0%, #0c0a07 100%);
+}
+.hero-line {
+  position: absolute; top: 0; right: 24%; width: 1px; height: 100%;
+  background: linear-gradient(to bottom, transparent, rgba(201,168,76,0.2) 30%, rgba(201,168,76,0.2) 70%, transparent);
+}
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace; font-size: 0.7rem;
+  letter-spacing: 0.35em; color: var(--gold); text-transform: uppercase;
+  margin-bottom: 1.5rem; opacity: 0;
+  animation: fadeUp 1s ease 0.3s forwards;
+}
+.hero-name {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(4rem, 10vw, 10rem);
+  font-weight: 700; line-height: 0.9; letter-spacing: -0.02em;
+  opacity: 0; animation: fadeUp 1s ease 0.5s forwards;
+}
+.hero-name span { color: transparent; -webkit-text-stroke: 1px rgba(201,168,76,0.4); }
+.hero-tagline { margin-top: 2.5rem; opacity: 0; animation: fadeUp 1s ease 0.8s forwards; }
+.hero-tagline-text {
+  font-size: 1rem; font-weight: 300; color: var(--silver);
+  letter-spacing: 0.05em; max-width: 420px; line-height: 1.7;
+}
+.hero-roles {
+  margin-top: 3rem; display: flex; gap: 1rem; flex-wrap: wrap;
+  opacity: 0; animation: fadeUp 1s ease 1s forwards;
+}
+.role-badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  border: 1px solid var(--border); padding: 0.4rem 1rem;
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase;
+  color: var(--gold-dim); background: rgba(201,168,76,0.04); transition: all 0.3s;
+}
+.role-badge:hover { border-color: var(--gold); color: var(--gold); background: rgba(201,168,76,0.08); }
+.role-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+.scroll-hint {
+  position: absolute; bottom: 2.5rem; right: 4rem;
+  writing-mode: vertical-rl; font-family: 'Space Mono', monospace;
+  font-size: 0.6rem; letter-spacing: 0.25em; color: var(--muted);
+  text-transform: uppercase; display: flex; align-items: center; gap: 0.75rem;
+  opacity: 0; animation: fadeIn 1.5s ease 1.5s forwards;
+}
+.scroll-hint::before {
+  content: ''; display: block; width: 1px; height: 60px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollLine 2s ease-in-out infinite;
+}
+#about {
+  padding: 10rem 4rem; display: grid;
+  grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;
+}
+.section-label {
+  font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.3em; text-transform: uppercase; color: var(--gold);
+  margin-bottom: 1.5rem; display: flex; align-items: center; gap: 1rem;
+}
+.section-label::after { content: ''; display: block; height: 1px; width: 40px; background: var(--gold-dim); }
+.about-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 400;
+  line-height: 1.2; margin-bottom: 2rem;
+}
+.about-heading em { font-style: italic; color: var(--gold); }
+.about-text { font-size: 1rem; font-weight: 300; color: var(--silver); line-height: 1.9; margin-bottom: 1.5rem; }
+.about-right { padding-top: 4rem; }
+.stat-row {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; border: 1px solid var(--border); background: var(--border);
+}
+.stat-cell { background: var(--off-black); padding: 1.5rem; }
+.stat-num { font-family: 'Playfair Display', serif; font-size: 2.5rem; font-weight: 700; color: var(--gold); line-height: 1; }
+.stat-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-top: 0.5rem; }
+#work { padding: 6rem 4rem; }
+.work-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 1px; background: var(--border); border: 1px solid var(--border); margin-top: 4rem;
+}
+.work-card {
+  background: var(--off-black); padding: 3rem 2.5rem;
+  position: relative; overflow: hidden; transition: background 0.4s;
+}
+.work-card:hover { background: #161410; }
+.work-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  transform: scaleX(0); transition: transform 0.5s ease;
+}
+.work-card:hover::before { transform: scaleX(1); }
+.work-num { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: var(--gold-dim); letter-spacing: 0.2em; margin-bottom: 2rem; }
+.work-icon { font-size: 2rem; margin-bottom: 1.5rem; display: block; filter: grayscale(0.5); transition: filter 0.3s; }
+.work-card:hover .work-icon { filter: grayscale(0); }
+.work-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700; color: var(--white); margin-bottom: 1rem; line-height: 1.2; }
+.work-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.8; }
+.work-tags { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 2rem; }
+.work-tag {
+  font-family: 'Space Mono', monospace; font-size: 0.6rem;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--gold-dim); border: 1px solid rgba(201,168,76,0.2); padding: 0.25rem 0.6rem;
+}
+#manifesto { padding: 10rem 4rem; text-align: center; position: relative; overflow: hidden; }
+#manifesto::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); width: 600px; height: 600px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+  pointer-events: none;
+}
+.manifesto-quote {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(1.5rem, 3.5vw, 2.75rem); font-weight: 400; font-style: italic;
+  line-height: 1.4; color: var(--white); max-width: 800px; margin: 0 auto 2rem; position: relative;
+}
+.manifesto-quote::before {
+  content: '\201C'; font-size: 8rem; position: absolute; top: -3rem; left: -2rem;
+  color: rgba(201,168,76,0.1); font-family: 'Playfair Display', serif; line-height: 1;
+}
+.manifesto-attr { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--gold); text-transform: uppercase; }
+#contact {
+  padding: 8rem 4rem; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 6rem; border-top: 1px solid var(--border);
+}
+.contact-heading { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; margin-bottom: 1.5rem; }
+.contact-sub { font-size: 0.9rem; color: var(--muted); line-height: 1.8; max-width: 380px; }
+.contact-links { padding-top: 2rem; display: flex; flex-direction: column; gap: 1rem; }
+.contact-link {
+  display: flex; align-items: center; gap: 1.5rem;
+  text-decoration: none; color: var(--white); padding: 1.25rem 1.5rem;
+  border: 1px solid var(--border); background: transparent; transition: all 0.3s;
+  position: relative; overflow: hidden;
+}
+.contact-link::before {
+  content: ''; position: absolute; inset: 0;
+  background: rgba(201,168,76,0.05);
+  transform: translateX(-100%); transition: transform 0.4s ease;
+}
+.contact-link:hover::before { transform: translateX(0); }
+.contact-link:hover { border-color: var(--gold-dim); }
+.contact-link-label { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); min-width: 80px; }
+.contact-link-val { font-size: 0.9rem; color: var(--silver-light); }
+.contact-arrow { margin-left: auto; color: var(--gold-dim); font-size: 0.9rem; transition: transform 0.3s; }
+.contact-link:hover .contact-arrow { transform: translateX(4px); }
+footer {
+  padding: 2rem 4rem; display: flex; justify-content: space-between;
+  align-items: center; border-top: 1px solid var(--border);
+}
+.footer-copy { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.2em; color: var(--muted); text-transform: uppercase; }
+.footer-logo { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-style: italic; color: var(--gold-dim); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes scrollLine { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.8s ease, transform 0.8s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+@media (max-width: 900px) {
+  nav { padding: 1.5rem 2rem; }
+  .nav-links { display: none; }
+  #hero { padding: 0 2rem 5rem; }
+  #about { grid-template-columns: 1fr; gap: 3rem; padding: 6rem 2rem; }
+  .about-right { padding-top: 0; }
+  #work { padding: 4rem 2rem; }
+  .work-grid { grid-template-columns: 1fr; }
+  #manifesto { padding: 6rem 2rem; }
+  #contact { grid-template-columns: 1fr; gap: 3rem; padding: 5rem 2rem; }
+  footer { padding: 2rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursor-ring"></div>
+
+<nav>
+  <a href="#hero" class="nav-logo">Devendra</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#work">Work</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <p class="hero-eyebrow">Available for projects worldwide</p>
+  <h1 class="hero-name">Deven<br><span>dra</span></h1>
+  <div class="hero-tagline">
+    <p class="hero-tagline-text">Capturing stories through a lens, crafting worlds through cinema, and navigating the frontier of decentralized finance.</p>
+  </div>
+  <div class="hero-roles">
+    <span class="role-badge"><span class="role-dot"></span>Photographer</span>
+    <span class="role-badge"><span class="role-dot"></span>Filmmaker</span>
+    <span class="role-badge"><span class="role-dot"></span>Crypto Trader</span>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<section id="about">
+  <div class="reveal">
+    <p class="section-label">About me</p>
+    <h2 class="about-heading">Three worlds.<br>One <em>vision.</em></h2>
+    <p class="about-text">I'm Devendra — someone who found that the discipline of trading charts and the patience of waiting for the perfect frame are actually the same skill: reading the world, and knowing when to act.</p>
+    <p class="about-text">Photography taught me to see light. Filmmaking taught me to build time. Crypto taught me to trust systems over emotions. Together, they shape how I move through everything I create.</p>
+    <p class="about-text">Based wherever the work takes me.</p>
+  </div>
+  <div class="about-right reveal">
+    <div class="stat-row">
+      <div class="stat-cell">
+        <div class="stat-num">∞</div>
+        <div class="stat-label">Frames composed</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">24/7</div>
+        <div class="stat-label">Market watching</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">01</div>
+        <div class="stat-label">Story at a time</div>
+      </div>
+      <div class="stat-cell">
+        <div class="stat-num">∅→∞</div>
+        <div class="stat-label">Nothing to everything</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="reveal">
+    <p class="section-label">What I do</p>
+  </div>
+  <div class="work-grid">
+    <div class="work-card reveal">
+      <div class="work-num">01 —</div>
+      <span class="work-icon">📷</span>
+      <h3 class="work-title">Photography</h3>
+      <p class="work-desc">Every photograph is a decision. I shoot with the belief that the most honest moments happen at the edge of stillness — portraits, landscapes, street, documentary.</p>
+      <div class="work-tags">
+        <span class="work-tag">Portrait</span>
+        <span class="work-tag">Landscape</span>
+        <span class="work-tag">Documentary</span>
+        <span class="work-tag">Street</span>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <div class="work-num">02 —</div>
+      <span class="work-icon">🎬</span>
+      <h3 class="work-title">Filmmaking</h3>
+      <p class="work-desc">Cinema is time made visible. From short films to commercial work, I approach every frame as a sculptural decision — light, shadow, motion, and story woven together.</p>
+      <div class="work-tags">
+        <span class="work-tag">Short Films</span>
+        <span class="work-tag">Commercials</span>
+        <span class="work-tag">Cinematography</span>
+        <span class="work-tag">Editing</span>
+      </div>
+    </div>
+    <div class="work-card reveal">
+      <div class="work-num">03 —</div>
+      <span class="work-icon">₿</span>
+      <h3 class="work-title">Crypto Trading</h3>
+      <p class="work-desc">Markets are the most honest creative system in the world. I trade with discipline — technical analysis, risk management, and a deep belief in decentralized financial systems.</p>
+      <div class="work-tags">
+        <span class="work-tag">BTC / ETH</span>
+        <span class="work-tag">DeFi</span>
+        <span class="work-tag">Technical Analysis</span>
+        <span class="work-tag">On-chain</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="manifesto">
+  <div class="reveal">
+    <blockquote class="manifesto-quote">Light doesn't lie. Neither do charts. I just know how to read both.</blockquote>
+    <p class="manifesto-attr">— Devendra</p>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="reveal">
+    <p class="section-label">Get in touch</p>
+    <h2 class="contact-heading">Let's build something<br>worth remembering.</h2>
+    <p class="contact-sub">Open for photography commissions, film collaborations, and crypto conversations. Reach out and let's talk.</p>
+  </div>
+  <div class="contact-links reveal">
+    <a href="mailto:dvndra02@gmail.com" class="contact-link">
+      <span class="contact-link-label">Email</span>
+      <span class="contact-link-val">dvndra02@gmail.com</span>
+      <span class="contact-arrow">&#8594;</span>
+    </a>
+    <a href="https://instagram.com/deven_vandari" target="_blank" class="contact-link">
+      <span class="contact-link-label">Instagram</span>
+      <span class="contact-link-val">@deven_vandari</span>
+      <span class="contact-arrow">&#8594;</span>
+    </a>
+    <a href="https://x.com/deven_vandari" target="_blank" class="contact-link">
+      <span class="contact-link-label">Twitter / X</span>
+      <span class="contact-link-val">@deven_vandari</span>
+      <span class="contact-arrow">&#8594;</span>
+    </a>
+    <a href="https://youtube.com/@DevendraBhandari" target="_blank" class="contact-link">
+      <span class="contact-link-label">YouTube</span>
+      <span class="contact-link-val">Devendra Bhandari</span>
+      <span class="contact-arrow">&#8594;</span>
+    </a>
+  </div>
+</section>
+
+<footer>
+  <p class="footer-copy">&#169; 2026 Devendra Bhandari. All rights reserved.</p>
+  <p class="footer-logo">D.</p>
+</footer>
+
+<script>
+var cursor = document.getElementById('cursor');
+var ring = document.getElementById('cursor-ring');
+var mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX;
+  my = e.clientY;
+});
+
+function animateCursor() {
+  cursor.style.left = mx + 'px';
+  cursor.style.top = my + 'px';
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+document.querySelectorAll('a, .work-card, .role-badge').forEach(function(el) {
+  el.addEventListener('mouseenter', function() {
+    cursor.style.transform = 'translate(-50%, -50%) scale(2.5)';
+    ring.style.width = '60px';
+    ring.style.height = '60px';
+    ring.style.opacity = '0.5';
+  });
+  el.addEventListener('mouseleave', function() {
+    cursor.style.transform = 'translate(-50%, -50%) scale(1)';
+    ring.style.width = '36px';
+    ring.style.height = '36px';
+    ring.style.opacity = '1';
+  });
+});
+
+var reveals = document.querySelectorAll('.reveal');
+var observer = new IntersectionObserver(function(entries) {
+  entries.forEach(function(entry, i) {
+    if (entry.isIntersecting) {
+      setTimeout(function() {
+        entry.target.classList.add('visible');
+      }, i * 100);
+    }
+  });
+}, { threshold: 0.15 });
+
+reveals.forEach(function(r) {
+  observer.observe(r);
+});
+</script>
+</body>
+</html>
