@@ -301,6 +301,65 @@ nav {
 .cinema-thumb:hover { opacity: 0.8; }
 .cinema-thumb:hover img { transform: scale(1.08); }
 
+/* SERIES SECTION */
+#series {
+  padding: 8rem 4rem;
+  background: var(--black);
+  border-top: 1px solid var(--border);
+}
+.series-header {
+  display: flex; justify-content: space-between; align-items: flex-end;
+  margin-bottom: 3rem; flex-wrap: wrap; gap: 1rem;
+}
+.series-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 4vw, 3rem); font-weight: 400; font-style: italic;
+  color: var(--white); line-height: 1.1;
+}
+.series-desc {
+  font-size: 0.875rem; color: var(--muted); line-height: 1.8;
+  max-width: 340px; text-align: right;
+}
+.series-grid {
+  display: grid; grid-template-columns: repeat(12, 1fr); gap: 6px;
+}
+.series-item {
+  overflow: hidden; position: relative; cursor: pointer;
+}
+.series-item img {
+  width: 100%; height: 100%; object-fit: cover; display: block;
+  transition: transform 0.6s ease, filter 0.4s ease; filter: brightness(0.92);
+}
+.series-item:hover img { transform: scale(1.04); filter: brightness(1); }
+.series-item-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,0.5) 0%, transparent 50%);
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.series-item:hover .series-item-overlay { opacity: 1; }
+.series-item-num {
+  position: absolute; bottom: 0.75rem; right: 0.75rem;
+  font-family: 'Space Mono', monospace; font-size: 0.55rem;
+  letter-spacing: 0.2em; color: rgba(201,168,76,0.8);
+  opacity: 0; transition: opacity 0.4s ease;
+}
+.series-item:hover .series-item-num { opacity: 1; }
+.series-item:nth-child(1) { grid-column: span 5; height: 320px; }
+.series-item:nth-child(2) { grid-column: span 7; height: 320px; }
+.series-item:nth-child(3) { grid-column: span 4; height: 360px; }
+.series-item:nth-child(4) { grid-column: span 4; height: 360px; }
+.series-item:nth-child(5) { grid-column: span 4; height: 360px; }
+.series-item:nth-child(6) { grid-column: span 7; height: 300px; }
+.series-item:nth-child(7) { grid-column: span 5; height: 300px; }
+.series-item:nth-child(8) { grid-column: span 12; height: 400px; }
+@media (max-width: 900px) {
+  #series { padding: 5rem 2rem; }
+  .series-desc { text-align: left; }
+  .series-grid { grid-template-columns: 1fr 1fr; gap: 4px; }
+  .series-item:nth-child(n) { grid-column: span 1 !important; height: 180px; }
+  .series-item:nth-child(8) { grid-column: span 2 !important; height: 220px; }
+}
+
 /* MANIFESTO */
 #manifesto {
   padding: 10rem 4rem; text-align: center; position: relative; overflow: hidden;
@@ -579,6 +638,28 @@ footer {
   </div>
 </section>
 
+
+<!-- STONES &amp; SKY SERIES -->
+<section id="series">
+  <div class="series-header reveal">
+    <div>
+      <p class="section-label">Series</p>
+      <h2 class="series-title">Stones &amp; Sky</h2>
+    </div>
+    <p class="series-desc">Between the ancient stone villages and the snow-capped peaks above — a journey through the quiet life that exists at the edge of everything.</p>
+  </div>
+  <div class="series-grid reveal">
+    <div class="series-item"><img src="DSC01846-2.jpg" alt="Snow peaks at golden dusk" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">01</span></div>
+    <div class="series-item"><img src="DSC02040.jpg" alt="Snow mountains through valley haze" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">02</span></div>
+    <div class="series-item"><img src="DSC02063.jpg" alt="Courtyard framed in a doorway" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">03</span></div>
+    <div class="series-item"><img src="DSC02067.jpg" alt="Stone village shop" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">04</span></div>
+    <div class="series-item"><img src="DSC02082.jpg" alt="Crumbling old house with overgrowth" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">05</span></div>
+    <div class="series-item"><img src="DSC02139.jpg" alt="Long stone building beneath clouds" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">06</span></div>
+    <div class="series-item"><img src="DSC02188.jpg" alt="Prayer bells and woven basket" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">07</span></div>
+    <div class="series-item"><img src="DSC02039.jpg" alt="Layered snow peaks at dusk" loading="lazy" /><div class="series-item-overlay"></div><span class="series-item-num">08</span></div>
+  </div>
+</section>
+
 <section id="manifesto">
   <div class="reveal">
     <blockquote class="manifesto-quote">Light doesn't lie. Neither do charts. I just know how to read both.</blockquote>
@@ -593,9 +674,9 @@ footer {
     <p class="contact-sub">Open for photography commissions, film collaborations, and crypto conversations. Reach out and let's talk.</p>
   </div>
   <div class="contact-links reveal">
-    <a href="mailto:dvndra02@gmail.com" class="contact-link">
+    <a href="/cdn-cgi/l/email-protection#492d3f272d3b28797b092e24282025672a2624" class="contact-link">
       <span class="contact-link-label">Email</span>
-      <span class="contact-link-val">dvndra02@gmail.com</span>
+      <span class="contact-link-val"><span class="__cf_email__" data-cfemail="f99d8f979d8b98c9cbb99e94989095d79a9694">[email&#160;protected]</span></span>
       <span class="contact-arrow">&#8594;</span>
     </a>
     <a href="https://instagram.com/deven_vandari" target="_blank" class="contact-link">
@@ -621,7 +702,7 @@ footer {
   <p class="footer-logo">D.</p>
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var cursor = document.getElementById('cursor');
 var ring = document.getElementById('cursor-ring');
 var mx = 0, my = 0, rx = 0, ry = 0;
@@ -718,7 +799,7 @@ var touchStartX = 0;
 document.getElementById('cinemaSlider').addEventListener('touchstart', function(e) {
   touchStartX = e.touches[0].clientX;
 }, { passive: true });
-document.getElementById('cinemaSlider').addEventListener('touchend', function(e) {
+document.getEdocument.getElementById('cinemaSlider').addEventListener('touchend', function(e) {
   var diff = touchStartX - e.changedTouches[0].clientX;
   if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
 });
